@@ -7,10 +7,11 @@ namespace Shell.NET
 {
     public class Bash
     {
+        public string Output { get; private set; }
         public int ExitCode { get; private set; }
         public string ErrorMsg { get; private set; }
 
-        public string Command(string input, bool redirect = false)
+        public void Command(string input, bool redirect = false)
         {
             using (var bash = new Process { StartInfo = BashInfo(redirect) })
             {
@@ -20,18 +21,12 @@ namespace Shell.NET
                 ExitCode = bash.ExitCode;
 
                 if (redirect)
-                {
-                    var output = bash.StandardOutput.ReadToEnd();
-                    bash.WaitForExit();
-                    bash.Close();
-                    return output;
-                }
+                    Output = bash.StandardOutput.ReadToEnd();
                 else
-                {
-                    bash.WaitForExit();
-                    bash.Close();
-                    return null;
-                }
+                    Output = null;
+
+                bash.WaitForExit();
+                bash.Close();
             }
         }
 

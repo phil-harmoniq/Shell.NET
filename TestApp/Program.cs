@@ -9,8 +9,8 @@ namespace TestApp
         {
             var bash = new Bash();
             bash.Command("~/Desktop/Hello.npk one --npk-v two");
-            var str = bash.Command("netpkg-tool --help", redirect: true);
-            Console.WriteLine(str);
+            bash.Command("netpkg-tool --help", redirect: true);
+            Console.WriteLine(bash.Output);
         }
     }
 }
