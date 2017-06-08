@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Bash/Bash.csproj" />
+    <ProjectReference Include="../Shell.NET/Shell.NET.csproj" />
   </ItemGroup>
 
 </Project>

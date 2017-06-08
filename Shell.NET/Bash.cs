@@ -40,6 +40,16 @@ namespace Shell.NET
             Command($"echo '{obj}'", redirect: false);
         }
 
+        public void nEcho(string input)
+        {
+            Command($"echo '{input}'", redirect: false);
+        }
+
+        public void nEcho(Object obj)
+        {
+            Command($"echo '{obj}'", redirect: false);
+        }
+
         private ProcessStartInfo BashInfo(bool redirectOutput)
         {
             return new ProcessStartInfo
