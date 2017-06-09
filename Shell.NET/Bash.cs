@@ -35,19 +35,19 @@ namespace Shell.NET
             Command($"echo '{input}'", redirect: false);
         }
 
-        public void Echo(Object obj)
+        public void Echo(string input, string flags)
         {
-            Command($"echo '{obj}'", redirect: false);
+            Command($"echo {flags} '{input}'", redirect: false);
         }
 
-        public void nEcho(string input)
+        public void Echo(Object input)
         {
             Command($"echo '{input}'", redirect: false);
         }
 
-        public void nEcho(Object obj)
+        public void Echo(Object input, string flags)
         {
-            Command($"echo '{obj}'", redirect: false);
+            Command($"echo {flags} '{input}'", redirect: false);
         }
 
         private ProcessStartInfo BashInfo(bool redirectOutput)
