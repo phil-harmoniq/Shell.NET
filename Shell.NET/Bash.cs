@@ -32,22 +32,22 @@ namespace Shell.NET
 
         public void Echo(string input)
         {
-            Command($"echo '{input}'", redirect: false);
+            Command($"echo \"{input}\"", redirect: false);
         }
 
         public void Echo(string input, string flags)
         {
-            Command($"echo {flags} '{input}'", redirect: false);
+            Command($"echo {flags} \"{input}\"", redirect: false);
         }
 
         public void Echo(Object input)
         {
-            Command($"echo '{input}'", redirect: false);
+            Command($"echo \"{input.ToString()}\"", redirect: false);
         }
 
         public void Echo(Object input, string flags)
         {
-            Command($"echo {flags} '{input}'", redirect: false);
+            Command($"echo {flags} \"{input.ToString()}\"", redirect: false);
         }
 
         private ProcessStartInfo BashInfo(bool redirectOutput)
