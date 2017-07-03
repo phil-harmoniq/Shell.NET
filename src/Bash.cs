@@ -5,46 +5,71 @@ using System.Runtime.InteropServices;
 
 namespace Shell.NET
 {
+    /// <summary>
+    /// Handles boilerplate for Bash commands and stores output and exit codes</summary>
     public class Bash
     {
+        /// <summary>
+        /// Stores output of the previous command if redirected</summary>
         public string Output { get; private set; }
+
+        /// <summary>
+        /// Stores the exit code of the previous command</summary>
         public int ExitCode { get; private set; }
+
+        /// <summary>
+        /// Stores the error message of the previous command if there was an error</summary>
         public string ErrorMsg { get; private set; }
 
+        /// <summary>
+        /// Execute a new Bash command</summary>
         public void Command(string input, bool redirect = false)
         {
             using (var bash = new Process { StartInfo = BashInfo(redirect) })
             {
                 bash.Start();
                 bash.StandardInput.WriteLine($"{input}; exit");
-                ErrorMsg = bash.StandardError.ReadToEnd();
-                ExitCode = bash.ExitCode;
 
                 if (redirect)
+                {
+                    ErrorMsg = bash.StandardError.ReadToEnd();
                     Output = bash.StandardOutput.ReadToEnd();
+                }
                 else
+                {
+                    ErrorMsg = null;
                     Output = null;
+                }
 
                 bash.WaitForExit();
+                ExitCode = bash.ExitCode;
                 bash.Close();
             }
         }
 
+        /// <summary>
+        /// Echo command wrapper</summary>
         public void Echo(string input)
         {
             Command($"echo \"{input}\"", redirect: false);
         }
 
+        /// <summary>
+        /// Echo command wrapper with flags</summary>
         public void Echo(string input, string flags)
         {
             Command($"echo {flags} \"{input}\"", redirect: false);
         }
 
+        /// <summary>
+        /// Echo command wrapper</summary>
         public void Echo(Object input)
         {
             Command($"echo \"{input.ToString()}\"", redirect: false);
         }
 
+        /// <summary>
+        /// Echo command wrapper with flags</summary>
         public void Echo(Object input, string flags)
         {
             Command($"echo {flags} \"{input.ToString()}\"", redirect: false);
