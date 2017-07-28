@@ -9,14 +9,19 @@ namespace TestApp
 
         static void Main(string[] args)
         {
+            Console.WriteLine(" > ls -lhaF");
             bash.Command("ls -lhaF");
             CheckCommandOutput();
+            Console.WriteLine(" > echo $PATH");
             bash.Command("echo $PATH");
             CheckCommandOutput();
+            Console.WriteLine(" > echo \"Hello Travis!\" >> $HOME/Shell.NET.Test");
             bash.Command("echo \"Hello Travis!\" >> $HOME/Shell.NET.Test");
             CheckCommandOutput();
+            Console.WriteLine(" > mv $HOME/Shell.NET.Test /tmp");
             bash.Command("mv $HOME/Shell.NET.Test");
             CheckCommandOutput();
+            Console.WriteLine(" > cat /tmp/Shell.NET.Test");
             bash.Command("cat /tmp/Shell.NET.Test");
             CheckCommandOutput();
         }
@@ -25,10 +30,10 @@ namespace TestApp
         {
             if (bash.ExitCode != 0)
             {
-                Console.WriteLine(@"\e[1m[ \e[31mFAIL\e[39m ]\e[0m");
+                bash.Echo(@"\e[1m[ \e[31mFAIL\e[39m ]\e[0m", "-e");
                 Environment.Exit(1);
             }
-            Console.WriteLine(@"\e[1m[ \e[32mPass\e[39m ]\e[0m");
+            bash.Echo(@"\e[1m[ \e[32mPASS\e[39m ]\e[0m", "-e");
         }
     }
 }
