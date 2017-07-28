@@ -60,7 +60,7 @@ namespace Shell.NET
         /// Echo command wrapper with flags</summary>
         public void Echo(string input, string flags)
         {
-            Command($"echo {flags} \"sfgeargvaegv {input}\"", redirect: false);
+            Command($"echo {flags} \"{input}\"", redirect: false);
         }
 
         /// <summary>

@@ -19,7 +19,7 @@ namespace TestApp
             bash.Command("echo \"Hello Travis!\" >> $HOME/Shell.NET.Test");
             CheckCommandOutput();
             Console.WriteLine(" > mv $HOME/Shell.NET.Test /tmp");
-            bash.Command("mv $HOME/Shell.NET.Test");
+            bash.Command("mv $HOME/Shell.NET.Test /tmp");
             CheckCommandOutput();
             Console.WriteLine(" > cat /tmp/Shell.NET.Test");
             bash.Command("cat /tmp/Shell.NET.Test");
