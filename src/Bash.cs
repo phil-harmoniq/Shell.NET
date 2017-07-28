@@ -18,11 +18,13 @@ namespace Shell.NET
         public int ExitCode { get; private set; }
 
         /// <summary>
-        /// Stores the error message of the previous command if there was an error</summary>
+        /// Stores the error message of the previous command if redirected</summary>
         public string ErrorMsg { get; private set; }
 
         /// <summary>
         /// Execute a new Bash command</summary>
+        /// <param name="input">The command to execute</param>
+        /// <param name="redirect">Redirect StdOut and StdError to internal properties</param>
         public void Command(string input, bool redirect = false)
         {
             using (var bash = new Process { StartInfo = BashInfo(redirect) })
