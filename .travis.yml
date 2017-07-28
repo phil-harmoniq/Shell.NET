@@ -16,3 +16,5 @@ deploy:
   script: >
     dotnet pack src -c Release &&
     dotnet nuget publish src/bin/Release/Shell.NET.*.nupkg -k $NUGET_API_KEY
+  on:
+    branch: master
