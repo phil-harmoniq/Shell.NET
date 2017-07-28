@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Title>Shell.NET</Title>
+    <Authors>ph-hawkins</Authors>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <VersionPrefix>0.1.4</VersionPrefix>
+    <VersionSuffix>alpha</VersionSuffix>
+    <Description>Utilize Bash shell directly in C#/.NET Core</Description>
+    <Copyright>MIT</Copyright>
+    <PackageProjectUrl>https://github.com/phil-harmoniq/Shell.NET</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/phil-harmoniq/Shell.NET</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/phil-harmoniq/Shell.NET/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageIconUrl>http://imgur.com/YdSh0xF.png</PackageIconUrl>
+    <AssemblyTitle>Shell.NET</AssemblyTitle>
+    <PackageTags>linux;unix;mac;bash;shell</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+</Project>
