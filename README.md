@@ -1,6 +1,4 @@
-# Shell.NET [![License][License]](LICENSE.md) [![Build Status](https://travis-ci.org/phil-harmoniq/Shell.NET.svg?branch=master)](https://travis-ci.org/phil-harmoniq/Shell.NET)
-
-[License]: https://img.shields.io/badge/License-MIT-blue.svg
+# Shell.NET  [![NuGet](https://img.shields.io/nuget/v/Shell.NET.svg)](https://preview.nuget.org/packages/Shell.NET/) [![Build Status](https://travis-ci.org/phil-harmoniq/Shell.NET.svg?branch=master)](https://travis-ci.org/phil-harmoniq/Shell.NET)
 
 Interact directly with the Bash shell in C#.
 
