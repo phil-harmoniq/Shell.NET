@@ -66,6 +66,7 @@ namespace Shell.NET
         /// Execute a new Bash command.</summary>
         /// <param name="input">The command to execute.</param>
         /// <param name="redirect">Redirect StdOut and StdError to internal properties.</param>
+        /// <returns>A `BashResult` object containing the command's output information.</returns>
         public BashResult Command(string input, bool redirect = true)
         {
             using (var bash = new Process { StartInfo = BashInfo(redirect) })
@@ -101,6 +102,7 @@ namespace Shell.NET
         /// <summary>
         /// Echo the given string to standard output.</summary>
         /// <param name="input">The string to print.</param>
+        /// <returns>A `BashResult` object containing the command's output information.</returns>
         public BashResult Echo(string input)
         {
             return Command($"echo \"{input}\"", redirect: false);
@@ -110,6 +112,7 @@ namespace Shell.NET
         /// Echo the given string to standard output.</summary>
         /// <param name="input">The string to print.</param>
         /// <param name="flags">Optional `echo` arguments.</param>
+        /// <returns>A `BashResult` object containing the command's output information.</returns>
         public BashResult Echo(string input, string flags)
         {
             return Command($"echo {flags} \"{input}\"", redirect: false);
@@ -117,8 +120,8 @@ namespace Shell.NET
 
         /// <summary>
         /// Echo the given string to standard output.</summary>
-        /// 
         /// <param name="input">The string to print.</param>
+        /// <returns>A `BashResult` object containing the command's output information.</returns>
         public BashResult Echo(Object input)
         {
             return Command($"echo \"{input.ToString()}\"", redirect: false);
@@ -128,6 +131,7 @@ namespace Shell.NET
         /// Echo the given string to standard output.</summary>
         /// <param name="input">The string to print.</param>
         /// <param name="flags">Optional `echo` arguments.</param>
+        /// <returns>A `BashResult` object containing the command's output information.</returns>
         public BashResult Echo(Object input, string flags)
         {
             return Command($"echo {flags} \"{input.ToString()}\"", redirect: false);
@@ -139,6 +143,7 @@ namespace Shell.NET
         /// <param name="pattern">The pattern to match (enclosed in single-quotes).</param>
         /// <param name="location">The files or directory to search.</param>
         /// <param name="redirect">Will print output to terminal if false.</param>
+        /// <returns>A `BashResult` object containing the command's output information.</returns>
         public BashResult Grep(string pattern, string location, bool redirect = true)
         {
             return Command($"grep '{pattern}' {location}", redirect: redirect);
@@ -160,6 +165,7 @@ namespace Shell.NET
         /// List information about files in the current directory.
         /// </summary>
         /// <param name="redirect">Will print output to terminal if false.</param>
+        /// <returns>A `BashResult` object containing the command's output information.</returns>
         public BashResult Ls(bool redirect = true)
         {
             return Command("ls", redirect: redirect);
@@ -170,6 +176,7 @@ namespace Shell.NET
         /// </summary>
         /// <param name="flags">Optional `ls` arguments.</param>
         /// <param name="redirect">Will print output to terminal if false.</param>
+        /// <returns>A `BashResult` object containing the command's output information.</returns>
         public BashResult Ls(string flags, bool redirect = true)
         {
             return Command($"ls {flags}", redirect: redirect);
@@ -181,6 +188,7 @@ namespace Shell.NET
         /// <param name="source">The file to be moved.</param>
         /// <param name="directory">The destination directory.</param>
         /// <param name="redirect">Will print output to terminal if false.</param>
+        /// <returns>A `BashResult` object containing the command's output information.</returns>
         public BashResult Mv(string source, string directory, bool redirect = true)
         {
             return Command($"mv {source} {directory}", redirect: redirect);
@@ -193,6 +201,7 @@ namespace Shell.NET
         /// <param name="directory">The destination directory.</param>
         /// <param name="flags">Optional `mv` arguments.</param>
         /// <param name="redirect">Will print output to terminal if false.</param>
+        /// <returns>A `BashResult` object containing the command's output information.</returns>
         public BashResult Mv(string source, string directory, string flags, bool redirect = true)
         {
             return Command($"mv {flags} {source} {directory}", redirect: redirect);
@@ -204,6 +213,7 @@ namespace Shell.NET
         /// <param name="source">The file to be copied.</param>
         /// <param name="directory">The destination directory.</param>
         /// <param name="redirect">Will print output to terminal if false.</param>
+        /// <returns>A `BashResult` object containing the command's output information.</returns>
         public BashResult Cp(string source, string directory, bool redirect = true)
         {
             return Command($"cp {source} {directory}", redirect: redirect);
@@ -216,6 +226,7 @@ namespace Shell.NET
         /// <param name="directory">The destination directory.</param>
         /// <param name="flags">Optional `cp` arguments.</param>
         /// <param name="redirect">Will print output to terminal if false.</param>
+        /// <returns>A `BashResult` object containing the command's output information.</returns>
         public BashResult Cp(string source, string directory, string flags, bool redirect = true)
         {
             return Command($"cp {flags} {source} {directory}", redirect: redirect);
@@ -226,6 +237,7 @@ namespace Shell.NET
         /// </summary>
         /// <param name="file">The file to be removed.</param>
         /// <param name="redirect">Will print output to terminal if false.</param>
+        /// <returns>A `BashResult` object containing the command's output information.</returns>
         public BashResult Rm(string file, bool redirect = true)
         {
             return Command($"rm {file}", redirect: redirect);
@@ -237,6 +249,7 @@ namespace Shell.NET
         /// <param name="file">The file to be removed.</param>
         /// <param name="flags">Optional `rm` arguments.</param>
         /// <param name="redirect">Will print output to terminal if false.</param>
+        /// <returns>A `BashResult` object containing the command's output information.</returns>
         public BashResult Rm(string file, string flags, bool redirect = true)
         {
             return Command($"rm {flags} {file}", redirect: redirect);
@@ -247,6 +260,7 @@ namespace Shell.NET
         /// </summary>
         /// <param name="file">The source file.</param>
         /// <param name="redirect">Will print output to terminal if false.</param>
+        /// <returns>A `BashResult` object containing the command's output information.</returns>
         public BashResult Cat(string file, bool redirect = true)
         {
             return Command($"cat {file}", redirect: redirect);
@@ -258,6 +272,7 @@ namespace Shell.NET
         /// <param name="file">The source file.</param>
         /// <param name="flags">Optional `cat` arguments.</param>
         /// <param name="redirect">Will print output to terminal if false.</param>
+        /// <returns>A `BashResult` object containing the command's output information.</returns>
         public BashResult Cat(string file, string flags, bool redirect = true)
         {
             return Command($"cat {flags} {file}", redirect: redirect);
