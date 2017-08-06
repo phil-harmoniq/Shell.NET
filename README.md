@@ -6,29 +6,28 @@ Interact intuitively with Bash directly in .NET Core.
 
 ```C#
 var bash = new Bash();
-bash.Cat("~/.bashrc", redirect: false);
 bash.Cp("~/.bashrc", "~/Desktop/bashrc-backup");
 bash.Grep("export", "~/Desktop/bashrc-backup", redirect: false);
 
 // Commands return a BashResult that stores output information:
-Console.WriteLine(bash.Rm("~/Desktop/bashrc-backup").ExitCode);
+if (bash.Rm("~/Desktop/bashrc-backup").ExitCode == 0)
+    bash.Echo("Success!");
 
 // With redirect (default in most commands), access the command's output from BashResult.Output:
-Console.WriteLine(bash.Ls("-lhaF").Output);
+Console.WriteLine(bash.Cat("~/.bashrc").Output);
 
 // Without redirect, the command's output gets printed to the terminal:
-bash.Ls("-lhaF", redirect: false);
+bash.Cat("~/.bashrc", redirect: false);
 
 // BashResult.Lines splits BashResult.Output by new-lines and stores the result as an array:
-var files = bash.Ls().Output.Split(' ');
-foreach (var file in files)
-    Console.WriteLine(file);
+foreach (var line in bash.Ls("-lhaF").Lines)
+    Console.WriteLine(line);
 
-// Generic commands cand be made with Bash.Command():
-bash.Command("ldd /usr/bin/dotnet");
+// Generic commands can be made with Bash.Command():
+bash.Command("ldd /usr/bin/dotnet", redirect: false);
 var dotNetVersion = bash.Command("dotnet --version").Output;
 ```
 
 ## Details
 
-Bash commands return an instance of `BashResult` that stores redirected output information in `BashResult.Output`, `BashResult.ErrorMsg`, `BashResult.ExitCode`, and `BashResult.Lines`. By default, all commands (except for `Bash.Echo()`) will redirect their output information; every command will which can be accessed through `BashResult.Output`, `BashResult.ErrorMsg`, `BashResult.ExitCode`, and `BashResult.Lines`. If a command is run with `redirect: false`,
+Bash commands return an instance of `BashResult` that stores redirected output information in `BashResult.Output`, `BashResult.ErrorMsg`, `BashResult.ExitCode`, and `BashResult.Lines`. By default, all commands (except for `Bash.Echo()`) will redirect their output information. If a command is run with `redirect: false`, all properties in `BashResult` except for BashResult.ExitCode will be `null`.
