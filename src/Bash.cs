@@ -270,7 +270,7 @@ namespace Shell.NET
                 FileName = _bashPath,
                 RedirectStandardInput = true,
                 RedirectStandardOutput = redirectOutput,
-                RedirectStandardError = true,
+                RedirectStandardError = redirectOutput,
                 UseShellExecute = false,
                 CreateNoWindow = true,
                 ErrorDialog = false
