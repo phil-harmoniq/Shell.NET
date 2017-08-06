@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Shell.NET;
 
 namespace TestApp
@@ -6,24 +7,56 @@ namespace TestApp
     class Program
     {
         static Bash bash = new Bash();
+        static string whoami => bash.Command("whoami").Lines[0];
+        static string path => bash.Command("dirs -0").Lines[0];
+        static string hostname => bash.Command("hostname").Lines[0];
+        static string reset = @"\e[0m";
+        static string bold = @"\e[1m";
+        static string cyan = @"\e[36m";
+        static string blue = @"\e[34m";
+        static string green = @"\e[32m";
+
+        static string prompt =
+            $"{cyan}[ {blue}{bold}{whoami}@{hostname}{reset} {green}{path}{cyan} ]{reset}$";
 
         static void Main(string[] args)
         {
-            Console.WriteLine(" > ls -lhaF");
-            bash.Command("ls -lhaF");
+            if (!Directory.Exists($"{Environment.GetEnvironmentVariable("HOME")}/Desktop"))
+                Directory.CreateDirectory($"{Environment.GetEnvironmentVariable("HOME")}/Desktop");
+
+            SayPrompt("ls -lhaF");
+            bash.Ls("-lhaF", redirect: false);
             CheckCommandOutput();
-            Console.WriteLine(" > echo $PATH");
-            bash.Command("echo $PATH");
+
+            SayPrompt("echo $PATH");
+            bash.Echo("$PATH");
             CheckCommandOutput();
-            Console.WriteLine(" > echo \"Hello Travis!\" >> $HOME/Shell.NET.Test");
-            bash.Command("echo \"Hello Travis!\" >> $HOME/Shell.NET.Test");
+
+            SayPrompt("echo \"C# + Linux = <3!\" >> ~/Desktop/Shell.NET.Test");
+            bash.Command("echo \"C# + Linux = <3!\" >> ~/Desktop/Shell.NET.Test", redirect: false);
             CheckCommandOutput();
-            Console.WriteLine(" > mv $HOME/Shell.NET.Test /tmp");
-            bash.Command("mv $HOME/Shell.NET.Test /tmp");
+
+            SayPrompt("mv ~/Desktop/Shell.NET.Test /tmp");
+            bash.Mv("~/Desktop/Shell.NET.Test", "/tmp", redirect: false);
             CheckCommandOutput();
-            Console.WriteLine(" > cat /tmp/Shell.NET.Test");
-            bash.Command("cat /tmp/Shell.NET.Test");
+
+            SayPrompt("cat /tmp/Shell.NET.Test");
+            bash.Cat("/tmp/Shell.NET.Test", redirect: false);
             CheckCommandOutput();
+
+            SayPrompt("cp /tmp/Shell.NET.Test ~/Desktop");
+            bash.Cp("/tmp/Shell.NET.Test", "~/Desktop", redirect: false);
+            CheckCommandOutput();
+
+            SayPrompt("grep '+ Linux' -nrH ~/Desktop");
+            bash.Grep("+ Linux", "~/Desktop", "-nrH", redirect: false);
+            CheckCommandOutput();
+
+            SayPrompt("rm ~/Desktop/Shell.NET.Test /tmp/Shell.NET.Test");
+            bash.Rm("~/Desktop/Shell.NET.Test /tmp/Shell.NET.Test", redirect: false);
+            CheckCommandOutput();
+
+            bash.Echo("\nAll Shell.NET tests passed! :)");
         }
 
         static void CheckCommandOutput(int errorCode = 1)
@@ -33,7 +66,12 @@ namespace TestApp
                 bash.Echo(@"\e[1m[ \e[31mFAIL\e[39m ]\e[0m", "-e");
                 Environment.Exit(1);
             }
-            bash.Echo(@"\e[1m[ \e[32mPASS\e[39m ]\e[0m", "-e");
+        }
+
+        static void SayPrompt(string cmd)
+        {
+            bash.Echo($"{prompt} ", "-ne");
+            Console.WriteLine(cmd);
         }
     }
 }

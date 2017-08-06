@@ -1,0 +1,40 @@
+using System;
+
+namespace Shell.NET.BashUtil
+{
+    /// <summary>
+    /// Simple container for the results of a Bash command. </summary>
+    public class BashResult
+    {
+        /// <summary>
+        /// The command output as a string. (null if redirected) </summary>
+        public string Output { get; internal set; }
+
+        /// <summary>
+        /// The command error output as a string. (null if redirected) </summary>
+        public string ErrorMsg { get; internal set; }
+
+        /// <summary>
+        /// The command exit code as an integer. (null if redirected) </summary>
+        public int ExitCode { get; internal set; }
+
+        /// <summary>
+        /// An array of the command output split by newline characters. (null if redirected) </summary>
+        public string[] Lines => Output?.Split('\n');
+
+        internal BashResult(string output, string errorMsg, int exitCode)
+        {
+            if (output != null)
+                Output = output.TrimEnd(System.Environment.NewLine.ToCharArray());
+            else
+                Output = null;
+            
+            if (errorMsg != null)
+                ErrorMsg = errorMsg.TrimEnd(System.Environment.NewLine.ToCharArray());
+            else
+                ErrorMsg = null;
+            
+            ExitCode = exitCode;
+        }
+    }
+}
