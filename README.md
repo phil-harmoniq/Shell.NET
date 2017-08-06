@@ -1,6 +1,22 @@
 # Shell.NET  [![NuGet](https://img.shields.io/nuget/v/Shell.NET.svg)](https://preview.nuget.org/packages/Shell.NET/) [![Build Status](https://travis-ci.org/phil-harmoniq/Shell.NET.svg?branch=master)](https://travis-ci.org/phil-harmoniq/Shell.NET)
 
-Interact intuitively with Bash directly in .NET Core.
+Interact with Bash directly in C#/.NET Core.
+
+## Installation
+
+Use the .NET CLI to get this library! Prereleases need an explicit version.
+
+```bash
+dotnet add package Shell.NET -v 0.1.5-alpha
+```
+
+Or add the following to your .csproj:
+
+```xml
+<ItemGroup>
+  <PackageReference Include="Shell.NET" Version="0.1.5-alpha" />
+</ItemGroup>
+```
 
 ## Example
 
@@ -23,11 +39,11 @@ bash.Cat("~/.bashrc", redirect: false);
 foreach (var line in bash.Ls("-lhaF").Lines)
     Console.WriteLine(line);
 
-// Generic commands can be made with Bash.Command():
+// Run custom commands using Bash.Command():
 bash.Command("ldd /usr/bin/dotnet", redirect: false);
 var dotNetVersion = bash.Command("dotnet --version").Output;
 ```
 
 ## Details
 
-Bash commands return an instance of `BashResult` that stores redirected output information in `BashResult.Output`, `BashResult.ErrorMsg`, `BashResult.ExitCode`, and `BashResult.Lines`. By default, all commands (except for `Bash.Echo()`) will redirect their output information. If a command is run with `redirect: false`, all properties in `BashResult` except for BashResult.ExitCode will be `null`.
+Bash commands return an instance of `BashResult` that stores redirected output information in `BashResult.Output`, `BashResult.ErrorMsg`, `BashResult.ExitCode`, and `BashResult.Lines`. By default, all commands (except for `Bash.Echo()`) will redirect their output information. If a command is run with `redirect: false`, all properties in `BashResult` except for `BashResult.ExitCode` will be `null`.
