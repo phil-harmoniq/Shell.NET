@@ -21,20 +21,23 @@ namespace TestApp
 
         static void Main(string[] args)
         {
+            if (!Directory.Exists($"{Environment.GetEnvironmentVariable("HOME")}/Desktop"))
+                Directory.CreateDirectory($"{Environment.GetEnvironmentVariable("HOME")}/Desktop");
+
             SayPrompt("ls -lhaF");
-            Console.WriteLine(bash.Ls("-lhaF").Output);
-            CheckCommandOutput();
-
-            SayPrompt("echo \"C# + Linux = <3!\" >> ~/Shell.NET.Test");
-            bash.Command("echo \"C# + Linux = <3!\" >> ~/Shell.NET.Test", redirect: false);
-            CheckCommandOutput();
-
-            SayPrompt("mv ~/Shell.NET.Test /tmp");
-            bash.Mv("~/Shell.NET.Test", "/tmp", redirect: false);
+            bash.Ls("-lhaF", redirect: false);
             CheckCommandOutput();
 
             SayPrompt("echo $PATH");
             bash.Echo("$PATH");
+            CheckCommandOutput();
+
+            SayPrompt("echo \"C# + Linux = <3!\" >> ~/Desktop/Shell.NET.Test");
+            bash.Command("echo \"C# + Linux = <3!\" >> ~/Desktop/Shell.NET.Test", redirect: false);
+            CheckCommandOutput();
+
+            SayPrompt("mv ~/Desktop/Shell.NET.Test /tmp");
+            bash.Mv("~/Desktop/Shell.NET.Test", "/tmp", redirect: false);
             CheckCommandOutput();
 
             SayPrompt("cat /tmp/Shell.NET.Test");
@@ -47,10 +50,6 @@ namespace TestApp
 
             SayPrompt("grep '+ Linux' -nrH ~/Desktop");
             bash.Grep("+ Linux", "~/Desktop", "-nrH", redirect: false);
-            CheckCommandOutput();
-
-            SayPrompt("grep '+ Linux' -nrH ~/Desktop");
-            Console.WriteLine(bash.Grep("+ Linux", "~/Desktop", "-nrH").Output);
             CheckCommandOutput();
 
             SayPrompt("rm ~/Desktop/Shell.NET.Test /tmp/Shell.NET.Test");
