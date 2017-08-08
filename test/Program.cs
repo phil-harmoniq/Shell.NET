@@ -6,55 +6,62 @@ namespace TestApp
 {
     class Program
     {
-        static Bash bash = new Bash();
-        static string whoami => bash.Command("whoami").Lines[0];
-        static string path => bash.Command("dirs -0").Lines[0];
-        static string hostname => bash.Command("hostname").Lines[0];
-        static string reset = @"\e[0m";
-        static string bold = @"\e[1m";
-        static string cyan = @"\e[36m";
-        static string blue = @"\e[34m";
-        static string green = @"\e[32m";
+        static readonly Bash bash = new Bash();
+        static readonly string whoami = bash.Command("whoami").Lines[0];
+        static readonly string path = bash.Command("dirs -0").Lines[0];
+        static readonly string hostname = bash.Command("hostname").Lines[0];
+        static readonly string reset = @"\e[0m";
+        static readonly string bold = @"\e[1m";
+        static readonly string cyan = @"\e[36m";
+        static readonly string blue = @"\e[34m";
+        static readonly string green = @"\e[32m";
 
         static string prompt =
             $"{cyan}[ {blue}{bold}{whoami}@{hostname}{reset} {green}{path}{cyan} ]{reset}$";
 
         static void Main(string[] args)
         {
-            if (!Directory.Exists($"{Environment.GetEnvironmentVariable("HOME")}/Desktop"))
-                Directory.CreateDirectory($"{Environment.GetEnvironmentVariable("HOME")}/Desktop");
+            // Because Travis doesn't have a ~/Desktop:
+            bash.Command("mkdir -p $HOME/Desktop");
+ 
+            SayPrompt("cp \"$HOME/.bashrc\" \"$HOME/Desktop/bashrc-backup\"");
+            bash.Cp("$HOME/.bashrc", "$HOME/Desktop/bashrc-backup");
+            CheckCommandOutput();
 
+            SayPrompt("grep \"export\" \"$HOME/Desktop/bashrc-backup\"");
+            bash.Grep("export", "$HOME/Desktop/bashrc-backup", redirect: false);
+            CheckCommandOutput();
+
+            // Commands return a BashResult that stores output information:
+            SayPrompt("rm \"$HOME/Desktop/bashrc-backup\"");
+            if (bash.Rm("$HOME/Desktop/bashrc-backup").ExitCode == 0)
+                Console.WriteLine("Success!");
+            CheckCommandOutput();
+
+            // With redirect (default in most commands), access the command's output from BashResult.Output:
+            SayPrompt("cat \"$HOME/.bashrc\"");
+            Console.WriteLine(bash.Cat("$HOME/.bashrc").Output);
+            CheckCommandOutput();
+
+            // Without redirect, the command's output gets printed to the terminal:
+            SayPrompt("cat \"$HOME/.bashrc\"");
+            bash.Cat("$HOME/.bashrc", redirect: false);
+            CheckCommandOutput();
+
+            // BashResult.Lines splits BashResult.Output by new-lines and stores the result as an array:
             SayPrompt("ls -lhaF");
-            bash.Ls("-lhaF", redirect: false);
+            foreach (var line in bash.Ls("-lhaF").Lines)
+                Console.WriteLine(line);
             CheckCommandOutput();
 
-            SayPrompt("echo $PATH");
-            bash.Echo("$PATH");
+            // Run custom commands using Bash.Command():
+            SayPrompt("ldd /usr/bin/dotnet");
+            bash.Command("ldd /usr/bin/dotnet", redirect: false);
             CheckCommandOutput();
 
-            SayPrompt("echo \"C# + Linux = <3!\" >> ~/Desktop/Shell.NET.Test");
-            bash.Command("echo \"C# + Linux = <3!\" >> ~/Desktop/Shell.NET.Test", redirect: false);
-            CheckCommandOutput();
+            var netVersion = bash.Command("dotnet --version").Output;
 
-            SayPrompt("mv ~/Desktop/Shell.NET.Test /tmp");
-            bash.Mv("~/Desktop/Shell.NET.Test", "/tmp", redirect: false);
-            CheckCommandOutput();
-
-            SayPrompt("cat /tmp/Shell.NET.Test");
-            bash.Cat("/tmp/Shell.NET.Test", redirect: false);
-            CheckCommandOutput();
-
-            SayPrompt("cp /tmp/Shell.NET.Test ~/Desktop");
-            bash.Cp("/tmp/Shell.NET.Test", "~/Desktop", redirect: false);
-            CheckCommandOutput();
-
-            SayPrompt("grep '+ Linux' -nrH ~/Desktop");
-            bash.Grep("+ Linux", "~/Desktop", "-nrH", redirect: false);
-            CheckCommandOutput();
-
-            SayPrompt("rm ~/Desktop/Shell.NET.Test /tmp/Shell.NET.Test");
-            bash.Rm("~/Desktop/Shell.NET.Test /tmp/Shell.NET.Test", redirect: false);
-            CheckCommandOutput();
+            Console.WriteLine($".NET Core version: {netVersion}");
 
             bash.Echo("\nAll Shell.NET tests passed! :)");
         }
