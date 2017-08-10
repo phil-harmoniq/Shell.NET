@@ -29,7 +29,7 @@ if (bash.Rm("$HOME/Desktop/bashrc-backup").ExitCode == 0)
     Console.WriteLine("Success!");
 
 // With redirect (default in most commands), access the command's output from BashResult.Output:
-Console.WriteLine(bash.Cat("$HOME/.bashrc").Output);
+var bashrc = bash.Cat("$HOME/.bashrc").Output;
 
 // Without redirect, the command's output gets printed to the terminal:
 bash.Cat("$HOME/.bashrc", redirect: false);

@@ -41,7 +41,7 @@ namespace TestApp
 
             // With redirect (default in most commands), access the command's output from BashResult.Output:
             SayPrompt("cat \"$HOME/.bashrc\"");
-            Console.WriteLine(bash.Cat("$HOME/.bashrc").Output);
+            var bashrc = bash.Cat("$HOME/.bashrc").Output;
             CheckCommandOutput();
 
             // Without redirect, the command's output gets printed to the terminal:
