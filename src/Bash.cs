@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using Shell.NET.BashUtil;
+using Shell.NET.Util;
 
 namespace Shell.NET
 {
@@ -14,19 +14,19 @@ namespace Shell.NET
         private static readonly bool _windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         private const string _subsystemBash = @"C:\Windows\System32\bash.exe";
         private const string _cygwinBash = @"C:\cygwin\bin\bash.exe";
-        private static string _bashPath;
+        private static string _bashPath = FindBash();
 
         /// <summary>Determines whether bash is running in a native OS (Linux/MacOS)</summary>
         /// <returns>True if in *nix, else false</returns>
-        public static readonly bool Native = _linux || _macOS;
+        public static bool Native => _linux || _macOS;
 
         /// <summary>Determines if using Windows and if Linux subsystem is installed</summary>
         /// <returns>True if in Windows and bash detected</returns>
-        public static readonly bool Subsystem = _windows && File.Exists(_subsystemBash);
+        public static bool Subsystem => _windows && File.Exists(_subsystemBash);
 
         /// <summary>Determines if using Windows and if Cygwin is installed</summary>
         /// <returns>True if in Windows and bash detected</returns>
-        public static readonly bool Cygwin = _windows && File.Exists(_cygwinBash);
+        public static bool Cygwin => _windows && File.Exists(_cygwinBash);
 
         /// <summary>Stores output of the previous command if redirected</summary>
         public string Output { get; private set; }
@@ -37,15 +37,15 @@ namespace Shell.NET
         /// <summary>Stores the error message of the previous command if redirected</summary>
         public string ErrorMsg { get; private set; }
 
-        /// <summary>Validate that Bash exists and instantiate.</summary>
-        public Bash()
+        private static string FindBash()
         {
+            Console.WriteLine($"Linux: {_linux}");
             if (Native)
-                _bashPath = "bash";
+                return "bash";
             else if (Subsystem)
-                _bashPath = _subsystemBash;
+                return _subsystemBash;
             else if (Cygwin)
-                _bashPath = _cygwinBash;
+                return _cygwinBash;
             else
                 throw new NotSupportedException("Neither Linux Subsystem nor Cygwin were detected");
         }
@@ -63,16 +63,15 @@ namespace Shell.NET
 
                 if (redirect)
                 {
-                    ErrorMsg = bash.StandardError.ReadToEnd();
-                    Output = bash.StandardOutput
-                        .ReadToEnd()
-                        .TrimEnd(System.Environment.NewLine
-                        .ToCharArray());
+                    Output = bash.StandardOutput.ReadToEnd()
+                        .TrimEnd(System.Environment.NewLine.ToCharArray());
+                    ErrorMsg = bash.StandardError.ReadToEnd()
+                        .TrimEnd(System.Environment.NewLine.ToCharArray());
                 }
                 else
                 {
-                    ErrorMsg = null;
                     Output = null;
+                    ErrorMsg = null;
                 }
 
                 bash.WaitForExit();
@@ -84,6 +83,20 @@ namespace Shell.NET
                 return new BashResult(Output, ErrorMsg, ExitCode);
             else
                 return new BashResult(null, null, ExitCode);
+        }
+
+        private ProcessStartInfo BashInfo(bool redirectOutput)
+        {
+            return new ProcessStartInfo
+            {
+                FileName = _bashPath,
+                RedirectStandardInput = true,
+                RedirectStandardOutput = redirectOutput,
+                RedirectStandardError = redirectOutput,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                ErrorDialog = false
+            };
         }
 
         /// <summary>Echo the given string to standard output.</summary>
@@ -208,19 +221,5 @@ namespace Shell.NET
         /// <returns>A `BashResult` containing the command's output information.</returns>
         public BashResult Cat(string file, string flags, bool redirect = true) =>
             Command($"cat {flags} \"{file}\"", redirect: redirect);
-
-        private ProcessStartInfo BashInfo(bool redirectOutput)
-        {
-            return new ProcessStartInfo
-            {
-                FileName = _bashPath,
-                RedirectStandardInput = true,
-                RedirectStandardOutput = redirectOutput,
-                RedirectStandardError = redirectOutput,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                ErrorDialog = false
-            };
-        }
     }
 }

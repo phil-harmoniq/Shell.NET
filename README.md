@@ -40,6 +40,7 @@ foreach (var line in bash.Ls("-lhaF").Lines)
 
 // Run custom commands using Bash.Command():
 var libs = bash.Command("ldd /usr/bin/dotnet").Lines;
+Console.WriteLine($"OS: {bash.Command("uname -s").Output}");
 ```
 
 ## Details
@@ -48,7 +49,7 @@ Bash commands return an instance of `BashResult` that stores redirected output i
 
 All commands besides `Bash.Command()` have their parameters wrapped in double-quotes internally to ensure they are properly expanded. To prevent expansion, use double back-slash:
 
-```bash
+```C#
 bash.Echo("Look at this: \\$HOME/Documents");
 // Look at this: $HOME/Documents
 

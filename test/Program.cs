@@ -7,9 +7,10 @@ namespace TestApp
     class Program
     {
         static readonly Bash bash = new Bash();
-        static readonly string whoami = bash.Command("whoami").Lines[0];
-        static readonly string path = bash.Command("dirs -0").Lines[0];
-        static readonly string hostname = bash.Command("hostname").Lines[0];
+        static readonly string whoami = bash.Command("whoami").Output;
+        static readonly string path = bash.Command("dirs -0").Output;
+        static readonly string hostname = bash.Command("hostname").Output;
+        static string os;
         static readonly string reset = @"\e[0m";
         static readonly string bold = @"\e[1m";
         static readonly string cyan = @"\e[36m";
@@ -60,8 +61,8 @@ namespace TestApp
             CheckCommandOutput();
 
             var netVersion = bash.Command("dotnet --version").Output;
-
             Console.WriteLine($".NET Core version: {netVersion}");
+            Console.WriteLine($"OS: {bash.Command("uname -s").Output}");
 
             bash.Echo("\nAll Shell.NET tests passed! :)");
         }
