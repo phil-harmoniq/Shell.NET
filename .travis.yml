@@ -8,7 +8,7 @@ before_script:
   - dotnet restore
 
 script:
-  - dotnet run --project test
+  - dotnet test
 
 deploy:
   skip_cleanup: true

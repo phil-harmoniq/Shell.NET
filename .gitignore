@@ -218,3 +218,6 @@ _Pvt_Extensions
 
 # VS Code meta
 .vscode/
+
+# Rider
+.idea/

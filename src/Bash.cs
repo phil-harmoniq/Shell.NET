@@ -9,24 +9,24 @@ namespace Shell.NET
     /// <summary>Handles boilerplate for Bash commands and stores output information.</summary>
     public class Bash
     {
-        private static readonly bool _linux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
-        private static readonly bool _macOS = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-        private static readonly bool _windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-        private const string _subsystemBash = @"C:\Windows\System32\bash.exe";
-        private const string _cygwinBash = @"C:\cygwin\bin\bash.exe";
-        private static string _bashPath = FindBash();
+        private static readonly bool Linux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+        private static readonly bool MacOs = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+        private static readonly bool Windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+        private const string SubsystemBash = @"C:\Windows\System32\bash.exe";
+        private const string CygwinBash = @"C:\cygwin\bin\bash.exe";
+        private static readonly string BashPath = FindBash();
 
         /// <summary>Determines whether bash is running in a native OS (Linux/MacOS)</summary>
         /// <returns>True if in *nix, else false</returns>
-        public static bool Native => _linux || _macOS;
+        public static bool Native => Linux || MacOs;
 
         /// <summary>Determines if using Windows and if Linux subsystem is installed</summary>
         /// <returns>True if in Windows and bash detected</returns>
-        public static bool Subsystem => _windows && File.Exists(_subsystemBash);
+        public static bool Subsystem => Windows && File.Exists(SubsystemBash);
 
         /// <summary>Determines if using Windows and if Cygwin is installed</summary>
         /// <returns>True if in Windows and bash detected</returns>
-        public static bool Cygwin => _windows && File.Exists(_cygwinBash);
+        public static bool Cygwin => Windows && File.Exists(CygwinBash);
 
         /// <summary>Stores output of the previous command if redirected</summary>
         public string Output { get; private set; }
@@ -39,13 +39,12 @@ namespace Shell.NET
 
         private static string FindBash()
         {
-            Console.WriteLine($"Linux: {_linux}");
             if (Native)
                 return "bash";
             else if (Subsystem)
-                return _subsystemBash;
+                return SubsystemBash;
             else if (Cygwin)
-                return _cygwinBash;
+                return CygwinBash;
             else
                 throw new NotSupportedException("Neither Linux Subsystem nor Cygwin were detected");
         }
@@ -64,9 +63,9 @@ namespace Shell.NET
                 if (redirect)
                 {
                     Output = bash.StandardOutput.ReadToEnd()
-                        .TrimEnd(System.Environment.NewLine.ToCharArray());
+                        .TrimEnd(Environment.NewLine.ToCharArray());
                     ErrorMsg = bash.StandardError.ReadToEnd()
-                        .TrimEnd(System.Environment.NewLine.ToCharArray());
+                        .TrimEnd(Environment.NewLine.ToCharArray());
                 }
                 else
                 {
@@ -89,7 +88,7 @@ namespace Shell.NET
         {
             return new ProcessStartInfo
             {
-                FileName = _bashPath,
+                FileName = BashPath,
                 RedirectStandardInput = true,
                 RedirectStandardOutput = redirectOutput,
                 RedirectStandardError = redirectOutput,
@@ -104,7 +103,7 @@ namespace Shell.NET
         /// <param name="redirect">Print output to terminal if false.</param>
         /// <returns>A `BashResult` containing the command's output information.</returns>
         public BashResult Echo(string input, bool redirect = false) =>
-            Command($"echo \"{input}\"", redirect: redirect);
+            Command($"echo {input}", redirect: redirect);
 
         /// <summary>Echo the given string to standard output.</summary>
         /// <param name="input">The string to print.</param>
@@ -112,22 +111,22 @@ namespace Shell.NET
         /// <param name="redirect">Print output to terminal if false.</param>
         /// <returns>A `BashResult` containing the command's output information.</returns>
         public void Echo(string input, string flags, bool redirect = false) =>
-            Command($"echo {flags} \"{input}\"", redirect: redirect);
+            Command($"echo {flags} {input}", redirect: redirect);
 
         /// <summary>Echo the given string to standard output.</summary>
         /// <param name="input">The string to print.</param>
         /// <param name="redirect">Print output to terminal if false.</param>
         /// <returns>A `BashResult` containing the command's output information.</returns>
-        public BashResult Echo(Object input, bool redirect = false) =>
-            Command($"echo \"{input.ToString()}\"", redirect: redirect);
+        public BashResult Echo(object input, bool redirect = false) =>
+            Command($"echo {input}", redirect: redirect);
 
         /// <summary>Echo the given string to standard output.</summary>
         /// <param name="input">The string to print.</param>
         /// <param name="flags">Optional `echo` arguments.</param>
         /// <param name="redirect">Print output to terminal if false.</param>
         /// <returns>A `BashResult` containing the command's output information.</returns>
-        public BashResult Echo(Object input, string flags, bool redirect = false) =>
-            Command($"echo {flags} \"{input.ToString()}\"", redirect: redirect);
+        public BashResult Echo(object input, string flags, bool redirect = false) =>
+            Command($"echo {flags} {input}", redirect: redirect);
 
         /// <summary>Search for `pattern` in each file in `location`.</summary>
         /// <param name="pattern">The pattern to match (enclosed in single-quotes).</param>
@@ -135,7 +134,7 @@ namespace Shell.NET
         /// <param name="redirect">Print output to terminal if false.</param>
         /// <returns>A `BashResult` containing the command's output information.</returns>
         public BashResult Grep(string pattern, string location, bool redirect = true) =>
-            Command($"grep \"{pattern}\" {location}", redirect: redirect);
+            Command($"grep {pattern} {location}", redirect: redirect);
 
         /// <summary>Search for `pattern` in each file in `location`.</summary>
         /// <param name="pattern">The pattern to match (enclosed in single-quotes).</param>
@@ -143,7 +142,7 @@ namespace Shell.NET
         /// <param name="flags">Optional `grep` arguments.</param>
         /// <param name="redirect">Print output to terminal if false.</param>
         public BashResult Grep(string pattern, string location, string flags, bool redirect = true) =>
-            Command($"grep \"{pattern}\" {flags} \"{location}\"", redirect: redirect);
+            Command($"grep {pattern} {flags} {location}", redirect: redirect);
 
         /// <summary>List information about files in the current directory.</summary>
         /// <param name="redirect">Print output to terminal if false.</param>
@@ -158,13 +157,21 @@ namespace Shell.NET
         public BashResult Ls(string flags, bool redirect = true) =>
             Command($"ls {flags}", redirect: redirect);
 
+        /// <summary>List information about the given files.</summary>
+        /// <param name="flags">Optional `ls` arguments.</param>
+        /// <param name="files">Files or directory to search.</param>
+        /// <param name="redirect">Print output to terminal if false.</param>
+        /// <returns>A `BashResult` containing the command's output information.</returns>
+        public BashResult Ls(string flags, string files, bool redirect = true) =>
+            Command($"ls {flags} {files}", redirect: redirect);
+
         /// <summary>Move `source` to `directory`.</summary>
         /// <param name="source">The file to be moved.</param>
         /// <param name="directory">The destination directory.</param>
         /// <param name="redirect">Print output to terminal if false.</param>
         /// <returns>A `BashResult` containing the command's output information.</returns>
         public BashResult Mv(string source, string directory, bool redirect = true) =>
-            Command($"mv {source} \"{directory}\"", redirect: redirect);
+            Command($"mv {source} {directory}", redirect: redirect);
 
         /// <summary>Move `source` to `directory`.</summary>
         /// <param name="source">The file to be moved.</param>
@@ -173,7 +180,7 @@ namespace Shell.NET
         /// <param name="redirect">Print output to terminal if false.</param>
         /// <returns>A `BashResult` containing the command's output information.</returns>
         public BashResult Mv(string source, string directory, string flags, bool redirect = true) =>
-            Command($"mv {flags} \"{source}\" \"{directory}\"", redirect: redirect);
+            Command($"mv {flags} {source} {directory}", redirect: redirect);
 
         /// <summary>Copy `source` to `directory`.</summary>
         /// <param name="source">The file to be copied.</param>
@@ -181,7 +188,7 @@ namespace Shell.NET
         /// <param name="redirect">Print output to terminal if false.</param>
         /// <returns>A `BashResult` containing the command's output information.</returns>
         public BashResult Cp(string source, string directory, bool redirect = true) =>
-            Command($"cp \"{source}\" \"{directory}\"", redirect: redirect);
+            Command($"cp {source} {directory}", redirect: redirect);
 
         /// <summary>Copy `source` to `directory`.</summary>
         /// <param name="source">The file to be copied.</param>
@@ -190,14 +197,14 @@ namespace Shell.NET
         /// <param name="redirect">Print output to terminal if false.</param>
         /// <returns>A `BashResult` containing the command's output information.</returns>
         public BashResult Cp(string source, string directory, string flags, bool redirect = true) =>
-            Command($"cp {flags} \"{source}\" \"{directory}\"", redirect: redirect);
+            Command($"cp {flags} {source} {directory}", redirect: redirect);
 
         /// <summary>Remove or unlink the given file.</summary>
         /// <param name="file">The file(s) to be removed.</param>
         /// <param name="redirect">Print output to terminal if false.</param>
         /// <returns>A `BashResult` containing the command's output information.</returns>
         public BashResult Rm(string file, bool redirect = true) =>
-            Command($"rm \"{file}\"", redirect: redirect);
+            Command($"rm {file}", redirect: redirect);
 
         /// <summary>Remove or unlink the given file.</summary>
         /// <param name="file">The file(s) to be removed.</param>
@@ -205,14 +212,14 @@ namespace Shell.NET
         /// <param name="redirect">Print output to terminal if false.</param>
         /// <returns>A `BashResult` containing the command's output information.</returns>
         public BashResult Rm(string file, string flags, bool redirect = true) =>
-            Command($"rm {flags} \"{file}\"", redirect: redirect);
+            Command($"rm {flags} {file}", redirect: redirect);
 
         /// <summary>Concatenate `file` to standard input.</summary>
         /// <param name="file">The source file.</param>
         /// <param name="redirect">Print output to terminal if false.</param>
         /// <returns>A `BashResult` containing the command's output information.</returns>
         public BashResult Cat(string file, bool redirect = true) =>
-            Command($"cat \"{file}\"", redirect: redirect);
+            Command($"cat {file}", redirect: redirect);
 
         /// <summary>Concatenate `file` to standard input.</summary>
         /// <param name="file">The source file.</param>
@@ -220,6 +227,6 @@ namespace Shell.NET
         /// <param name="redirect">Print output to terminal if false.</param>
         /// <returns>A `BashResult` containing the command's output information.</returns>
         public BashResult Cat(string file, string flags, bool redirect = true) =>
-            Command($"cat {flags} \"{file}\"", redirect: redirect);
+            Command($"cat {flags} {file}", redirect: redirect);
     }
 }

@@ -14,7 +14,7 @@
     <PackageLicenseUrl>https://github.com/phil-harmoniq/Shell.NET/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageIconUrl>http://imgur.com/YdSh0xF.png</PackageIconUrl>
     <AssemblyTitle>Shell.NET</AssemblyTitle>
-    <PackageTags>linux;unix;mac;bash;shell</PackageTags>
+    <PackageTags>bash;shell;linux;unix;mac;*nix;core;netstandard</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
