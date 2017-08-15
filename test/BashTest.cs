@@ -32,7 +32,7 @@ namespace BashTests
             var cp = _bash.Cp("~/.bashrc", "/tmp/bashrc-backup");
             var mv = _bash.Mv("/tmp/bashrc-backup", "~");
             var rm = _bash.Rm("~/bashrc-backup");
-
+            
             Assert.Equal(0, cp.ExitCode);
             Assert.Equal(0, mv.ExitCode);
             Assert.Equal(0, rm.ExitCode);
