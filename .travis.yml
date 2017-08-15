@@ -1,7 +1,7 @@
 dist: trusty
 language: csharp
 mono: none
-dotnet: 2.0.0-preview2-006497
+dotnet: 2.0.0
 dist: trusty
 
 before_script:
