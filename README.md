@@ -7,14 +7,14 @@ Interact with Bash directly in C#/.NET Core.
 Use the .NET CLI to get this library! Prereleases need an explicit version.
 
 ```bash
-dotnet add package Shell.NET -v 0.1.5-alpha
+dotnet add package Shell.NET -v 0.1.7-alpha
 ```
 
 Or add the following to your .csproj:
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Shell.NET" Version="0.1.5-alpha" />
+  <PackageReference Include="Shell.NET" Version="0.1.7-alpha" />
 </ItemGroup>
 ```
 
@@ -22,15 +22,14 @@ Or add the following to your .csproj:
 
 ```C#
 var bash = new Bash();
-bash.Cp("~/.bashrc", "~/Desktop/bashrc-backup");
-bash.Grep("export", "~/Desktop/bashrc-backup", redirect: false);
+bash.Grep("export", "~/.bashrc", redirect: false);
 
 // Commands return a BashResult that stores output information:
 if (bash.Rm("~/Desktop/bashrc-backup").ExitCode == 0)
-    bash.Echo("Success!");
+    Console.WriteLine("Success!");
 
 // With redirect (default in most commands), access the command's output from BashResult.Output:
-Console.WriteLine(bash.Cat("~/.bashrc").Output);
+var bashrc = bash.Cat("~/.bashrc").Output;
 
 // Without redirect, the command's output gets printed to the terminal:
 bash.Cat("~/.bashrc", redirect: false);
@@ -40,8 +39,8 @@ foreach (var line in bash.Ls("-lhaF").Lines)
     Console.WriteLine(line);
 
 // Run custom commands using Bash.Command():
-bash.Command("ldd /usr/bin/dotnet", redirect: false);
-var dotNetVersion = bash.Command("dotnet --version").Output;
+var libs = bash.Command("ldd /usr/bin/dotnet").Lines;
+Console.WriteLine($"OS: {bash.Command("uname -s").Output}");
 ```
 
 ## Details
