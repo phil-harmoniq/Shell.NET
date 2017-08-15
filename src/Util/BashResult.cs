@@ -4,7 +4,7 @@ namespace Shell.NET.Util
 {
     /// <summary>
     /// Simple container for the results of a Bash command. </summary>
-    public struct BashResult
+    public class BashResult
     {
         /// <summary>
         /// The command output as a string. (null if redirected) </summary>

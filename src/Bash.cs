@@ -16,25 +16,29 @@ namespace Shell.NET
         private const string CygwinBash = @"C:\cygwin\bin\bash.exe";
         private static readonly string BashPath = FindBash();
 
-        /// <summary>Determines whether bash is running in a native OS (Linux/MacOS)</summary>
-        /// <returns>True if in *nix, else false</returns>
+        /// <summary>Determines whether bash is running in a native OS (Linux/MacOS).</summary>
+        /// <returns>True if in *nix, else false.</returns>
         public static bool Native => Linux || MacOs;
 
-        /// <summary>Determines if using Windows and if Linux subsystem is installed</summary>
-        /// <returns>True if in Windows and bash detected</returns>
+        /// <summary>Determines if using Windows and if Linux subsystem is installed.</summary>
+        /// <returns>True if in Windows and bash detected.</returns>
         public static bool Subsystem => Windows && File.Exists(SubsystemBash);
 
-        /// <summary>Determines if using Windows and if Cygwin is installed</summary>
-        /// <returns>True if in Windows and bash detected</returns>
+        /// <summary>Determines if using Windows and if Cygwin is installed.</summary>
+        /// <returns>True if in Windows and bash detected.</returns>
         public static bool Cygwin => Windows && File.Exists(CygwinBash);
 
-        /// <summary>Stores output of the previous command if redirected</summary>
+        /// <summary>Stores output of the previous command if redirected.</summary>
         public string Output { get; private set; }
 
-        /// <summary>Stores the exit code of the previous command</summary>
+        /// <summary>
+        /// Gets an array of the command output split by newline characters if redirected. </summary>
+        public string[] Lines => Output?.Split('\n');
+
+        /// <summary>Stores the exit code of the previous command.</summary>
         public int ExitCode { get; private set; }
 
-        /// <summary>Stores the error message of the previous command if redirected</summary>
+        /// <summary>Stores the error message of the previous command if redirected.</summary>
         public string ErrorMsg { get; private set; }
 
         private static string FindBash()
