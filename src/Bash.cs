@@ -133,7 +133,7 @@ namespace Shell.NET
             Command($"echo {flags} {input}", redirect: redirect);
 
         /// <summary>Search for `pattern` in each file in `location`.</summary>
-        /// <param name="pattern">The pattern to match (enclosed in single-quotes).</param>
+        /// <param name="pattern">The pattern to match.</param>
         /// <param name="location">The files or directory to search.</param>
         /// <param name="redirect">Print output to terminal if false.</param>
         /// <returns>A `BashResult` containing the command's output information.</returns>
@@ -141,7 +141,7 @@ namespace Shell.NET
             Command($"grep {pattern} {location}", redirect: redirect);
 
         /// <summary>Search for `pattern` in each file in `location`.</summary>
-        /// <param name="pattern">The pattern to match (enclosed in single-quotes).</param>
+        /// <param name="pattern">The pattern to match.</param>
         /// <param name="location">The files or directory to search.</param>
         /// <param name="flags">Optional `grep` arguments.</param>
         /// <param name="redirect">Print output to terminal if false.</param>
