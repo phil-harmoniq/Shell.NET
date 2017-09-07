@@ -33,7 +33,7 @@ namespace Shell.NET
 
         /// <summary>
         /// Gets an array of the command output split by newline characters if redirected. </summary>
-        public string[] Lines => Output?.Split('\n');
+        public string[] Lines => Output?.Split(Environment.NewLine.ToCharArray());
 
         /// <summary>Stores the exit code of the previous command.</summary>
         public int ExitCode { get; private set; }
@@ -133,7 +133,7 @@ namespace Shell.NET
             Command($"echo {flags} {input}", redirect: redirect);
 
         /// <summary>Search for `pattern` in each file in `location`.</summary>
-        /// <param name="pattern">The pattern to match (enclosed in single-quotes).</param>
+        /// <param name="pattern">The pattern to match.</param>
         /// <param name="location">The files or directory to search.</param>
         /// <param name="redirect">Print output to terminal if false.</param>
         /// <returns>A `BashResult` containing the command's output information.</returns>
@@ -141,7 +141,7 @@ namespace Shell.NET
             Command($"grep {pattern} {location}", redirect: redirect);
 
         /// <summary>Search for `pattern` in each file in `location`.</summary>
-        /// <param name="pattern">The pattern to match (enclosed in single-quotes).</param>
+        /// <param name="pattern">The pattern to match.</param>
         /// <param name="location">The files or directory to search.</param>
         /// <param name="flags">Optional `grep` arguments.</param>
         /// <param name="redirect">Print output to terminal if false.</param>
