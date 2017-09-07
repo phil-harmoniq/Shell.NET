@@ -20,17 +20,17 @@ namespace Shell.NET.Util
 
         /// <summary>
         /// An array of the command's output split by newline characters. (if redirected)</summary>
-        public string[] Lines => Output?.Split('\n');
+        public string[] Lines => Output?.Split(Environment.NewLine.ToCharArray());
 
         internal BashResult(string output, string errorMsg, int exitCode)
         {
             if (output != null)
-                Output = output.TrimEnd(System.Environment.NewLine.ToCharArray());
+                Output = output.TrimEnd(Environment.NewLine.ToCharArray());
             else
                 Output = null;
             
             if (errorMsg != null)
-                ErrorMsg = errorMsg.TrimEnd(System.Environment.NewLine.ToCharArray());
+                ErrorMsg = errorMsg.TrimEnd(Environment.NewLine.ToCharArray());
             else
                 ErrorMsg = null;
             

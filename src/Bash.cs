@@ -33,7 +33,7 @@ namespace Shell.NET
 
         /// <summary>
         /// Gets an array of the command output split by newline characters if redirected. </summary>
-        public string[] Lines => Output?.Split('\n');
+        public string[] Lines => Output?.Split(Environment.NewLine.ToCharArray());
 
         /// <summary>Stores the exit code of the previous command.</summary>
         public int ExitCode { get; private set; }
