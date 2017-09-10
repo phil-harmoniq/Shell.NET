@@ -12,7 +12,7 @@ namespace Shell.NET
         private static readonly bool Linux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         private static readonly bool MacOs = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         private static readonly bool Windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-        private const string SubsystemBash = @"C:\Windows\System32\bash.exe";
+        private const string SubsystemBash = @"C:\Windows\sysnative\bash.exe";
         private const string CygwinBash = @"C:\cygwin\bin\bash.exe";
         private static readonly string BashPath = FindBash();
 
