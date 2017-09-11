@@ -1,6 +1,6 @@
 # Shell.NET  [![NuGet](https://img.shields.io/nuget/v/Shell.NET.svg)](https://www.nuget.org/packages/Shell.NET/) [![Build Status](https://travis-ci.org/phil-harmoniq/Shell.NET.svg?branch=master)](https://travis-ci.org/phil-harmoniq/Shell.NET)
 
-[**Now Windows compatible with using the Linux Subsystem.**](#windows)
+**Now Windows compatible using the [Linux Subsystem](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide)**
 
 ## Installation
 
@@ -46,7 +46,3 @@ Console.WriteLine($"OS: {bash.Command("uname -s").Output}");
 ## Details
 
 Bash commands return an instance of `BashResult` that stores redirected output information in `BashResult.Output`, `BashResult.ErrorMsg`, `BashResult.ExitCode`, and `BashResult.Lines`. By default, all commands (except for `Bash.Echo()`) will redirect their output information. If a command is run with `redirect: false`, all properties in `BashResult` except for `BashResult.ExitCode` will be `null`.
-
-## Windows
-
-To use Shell.NET in Windows operating systems, you must install a [Linux Subsystem](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide) of your choice. Bash will be recognized by the library if properly installed.
