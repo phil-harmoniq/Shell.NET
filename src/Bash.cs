@@ -12,8 +12,6 @@ namespace Shell.NET
         private static readonly bool Linux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         private static readonly bool MacOs = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         private static readonly bool Windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-        private const string SubsystemBash = @"C:\Windows\System32\bash.exe";
-        private const string CygwinBash = @"C:\cygwin\bin\bash.exe";
         private static readonly string BashPath = FindBash();
 
         /// <summary>Determines whether bash is running in a native OS (Linux/MacOS).</summary>
@@ -22,11 +20,7 @@ namespace Shell.NET
 
         /// <summary>Determines if using Windows and if Linux subsystem is installed.</summary>
         /// <returns>True if in Windows and bash detected.</returns>
-        public static bool Subsystem => Windows && File.Exists(SubsystemBash);
-
-        /// <summary>Determines if using Windows and if Cygwin is installed.</summary>
-        /// <returns>True if in Windows and bash detected.</returns>
-        public static bool Cygwin => Windows && File.Exists(CygwinBash);
+        public static bool Subsystem => Windows && File.Exists(@"C:\Windows\System32\bash.exe");
 
         /// <summary>Stores output of the previous command if redirected.</summary>
         public string Output { get; private set; }
@@ -47,8 +41,6 @@ namespace Shell.NET
                 return "bash";
             else if (Subsystem)
                 return "bash.exe";
-            else if (Cygwin)
-                return CygwinBash;
             else
                 throw new NotSupportedException("Neither Linux Subsystem nor Cygwin were detected");
         }
