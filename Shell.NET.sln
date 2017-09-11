@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shell.NET", "src\Shell.NET.csproj", "{6E0FF9E8-461F-40B6-B2CF-2A4A88B257A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BashTest", "test\BashTest.csproj", "{EA690C06-DC4A-4082-A6C4-2BCF1104A459}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shell.NET.Test", "test\Shell.NET.Test.csproj", "{EA690C06-DC4A-4082-A6C4-2BCF1104A459}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
