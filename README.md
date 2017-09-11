@@ -1,20 +1,20 @@
 # Shell.NET  [![NuGet](https://img.shields.io/nuget/v/Shell.NET.svg)](https://www.nuget.org/packages/Shell.NET/) [![Build Status](https://travis-ci.org/phil-harmoniq/Shell.NET.svg?branch=master)](https://travis-ci.org/phil-harmoniq/Shell.NET)
 
-Interact with Bash directly in C#/.NET Core.
+**Now Windows compatible using the [Linux Subsystem](https://msdn.microsoft.com/commandline/wsl/about)**
 
 ## Installation
 
 Use the .NET CLI to get this library! Prereleases need an explicit version.
 
 ```bash
-dotnet add package Shell.NET -v 0.1.7-alpha
+dotnet add package Shell.NET
 ```
 
 Or add the following to your .csproj:
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Shell.NET" Version="0.1.7-alpha" />
+  <PackageReference Include="Shell.NET" Version="0.2.0" />
 </ItemGroup>
 ```
 

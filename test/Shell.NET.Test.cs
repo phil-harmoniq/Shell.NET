@@ -12,7 +12,7 @@ public class BashTests
 
     [Fact]
     public void CatTest() =>
-        Assert.Equal(0, _bash.Cat("~/.bashrc", redirect: false).ExitCode);
+        Assert.Equal(0, _bash.Cat("~/.bashrc").ExitCode);
 
     [Fact]
     public void LsTest() =>
