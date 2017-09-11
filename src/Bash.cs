@@ -46,7 +46,7 @@ namespace Shell.NET
             if (Native)
                 return "bash";
             else if (Subsystem)
-                return SubsystemBash;
+                return "bash.exe";
             else if (Cygwin)
                 return CygwinBash;
             else

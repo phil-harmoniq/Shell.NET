@@ -12,15 +12,18 @@ public class BashTests
 
     [Fact]
     public void CatTest() =>
-        Assert.Equal(0, _bash.Cat("~/.bashrc").ExitCode);
-
-    [Fact]
-    public void GrepTest() =>
-        Assert.True(_bash.Grep("export", "~/.bashrc").Lines.Length > 1);
+        Assert.Equal(0, _bash.Cat("~/.bashrc", redirect: false).ExitCode);
 
     [Fact]
     public void LsTest() =>
         Assert.True(_bash.Ls("-lhaF", "~").Lines.Length > 1);
+
+    [Fact]
+    public void GrepTest()
+    {
+        var grep = _bash.Grep("export", "~/.bashrc");
+        Assert.True(grep.Lines != null && grep.Lines.Length > 0);
+    }
 
     [Fact]
     public void CpMvRmTest()
