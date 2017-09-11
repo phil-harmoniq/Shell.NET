@@ -59,10 +59,9 @@ namespace Shell.NET
         /// <returns>A `BashResult` containing the command's output information.</returns>
         public BashResult Command(string input, bool redirect = true)
         {
-            using (var bash = new Process { StartInfo = BashInfo(redirect) })
+            using (var bash = new Process { StartInfo = BashInfo(input, redirect) })
             {
                 bash.Start();
-                bash.StandardInput.WriteLine($"{input}; exit");
 
                 if (redirect)
                 {
@@ -88,12 +87,13 @@ namespace Shell.NET
                 return new BashResult(null, null, ExitCode);
         }
 
-        private ProcessStartInfo BashInfo(bool redirectOutput)
+        private ProcessStartInfo BashInfo(string input, bool redirectOutput)
         {
             return new ProcessStartInfo
             {
                 FileName = BashPath,
-                RedirectStandardInput = true,
+                Arguments = $"-c \"{input}\"",
+                RedirectStandardInput = false,
                 RedirectStandardOutput = redirectOutput,
                 RedirectStandardError = redirectOutput,
                 UseShellExecute = false,
