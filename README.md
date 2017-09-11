@@ -1,6 +1,6 @@
 # Shell.NET  [![NuGet](https://img.shields.io/nuget/v/Shell.NET.svg)](https://www.nuget.org/packages/Shell.NET/) [![Build Status](https://travis-ci.org/phil-harmoniq/Shell.NET.svg?branch=master)](https://travis-ci.org/phil-harmoniq/Shell.NET)
 
-**Now Windows compatible using the [Linux Subsystem](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide)**
+**Now Windows compatible using the [Linux Subsystem](https://msdn.microsoft.com/commandline/wsl/about)**
 
 ## Installation
 
