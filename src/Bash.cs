@@ -106,7 +106,7 @@ namespace Shell.NET
         /// <param name="flags">Optional `echo` arguments.</param>
         /// <param name="redirect">Print output to terminal if false.</param>
         /// <returns>A `BashResult` containing the command's output information.</returns>
-        public void Echo(string input, string flags, bool redirect = false) =>
+        public BashResult Echo(string input, string flags, bool redirect = false) =>
             Command($"echo {flags} {input}", redirect: redirect);
 
         /// <summary>Echo the given string to standard output.</summary>

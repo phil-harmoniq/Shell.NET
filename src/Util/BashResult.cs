@@ -24,16 +24,8 @@ namespace Shell.NET.Util
 
         internal BashResult(string output, string errorMsg, int exitCode)
         {
-            if (output != null)
-                Output = output.TrimEnd(Environment.NewLine.ToCharArray());
-            else
-                Output = null;
-            
-            if (errorMsg != null)
-                ErrorMsg = errorMsg.TrimEnd(Environment.NewLine.ToCharArray());
-            else
-                ErrorMsg = null;
-            
+            Output = output?.TrimEnd(Environment.NewLine.ToCharArray());
+            ErrorMsg = errorMsg?.TrimEnd(Environment.NewLine.ToCharArray());
             ExitCode = exitCode;
         }
     }
