@@ -14,7 +14,7 @@ Or add the following to your .csproj:
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Shell.NET" Version="0.2.0" />
+  <PackageReference Include="Shell.NET" Version="0.2.2" />
 </ItemGroup>
 ```
 
