@@ -216,8 +216,5 @@ FakesAssemblies/
 **/*.Server/ModelManifest.xml
 _Pvt_Extensions
 
-# VS Code meta
-.vscode/
-
 # Rider
 .idea/

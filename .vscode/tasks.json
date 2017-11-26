@@ -1,0 +1,27 @@
+{
+	"type": "shell",
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build Solution",
+			"command": "dotnet",
+			"args": ["build"],
+			"problemMatcher": "$msCompile",
+			"group": "build"
+		},
+		{
+			"label": "Restore Nuget Packages",
+			"command": "dotnet",
+			"args": ["restore"],
+			"problemMatcher": "$msCompile",
+			"group": "build"
+		},
+		{
+			"label": "Run All Unit Tests",
+			"command": "dotnet",
+			"args": ["test", "${workspaceRoot}/Shell.NET.Tests"],
+			"problemMatcher": "$msCompile",
+			"group": "build"
+		}
+	]
+}

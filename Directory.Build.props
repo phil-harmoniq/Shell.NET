@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <BaseIntermediateOutputPath>../.vscode/build/$(MSBuildProjectName)/obj</BaseIntermediateOutputPath>
+    <OutputPath>../.vscode/build/$(MSBuildProjectName)/bin</OutputPath>
+  </PropertyGroup>
+</Project>

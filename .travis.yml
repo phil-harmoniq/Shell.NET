@@ -8,11 +8,11 @@ before_script:
   - dotnet restore
 
 script:
-  - dotnet test test
+  - dotnet test Shell.NET.Tests
 
 deploy:
   skip_cleanup: true
   provider: script
-  script: dotnet pack src -c Release && dotnet nuget push src/bin/Release/Shell.NET.*.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
+  script: dotnet pack Shell.NET -c Release && dotnet nuget push .vscode/build/Shell.NET/bin/Shell.NET.*.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
   on:
     branch: master
