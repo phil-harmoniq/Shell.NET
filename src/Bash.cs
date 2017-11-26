@@ -9,18 +9,18 @@ namespace Shell.NET
     /// <summary>Handles boilerplate for Bash commands and stores output information.</summary>
     public class Bash
     {
-        private static readonly bool Linux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
-        private static readonly bool MacOs = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-        private static readonly bool Windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-        private static readonly string BashPath = FindBash();
+        private static bool _linux { get; }
+        private static bool _mac { get; }
+        private static bool _windows { get; }
+        private static string _bashPath { get; }
 
         /// <summary>Determines whether bash is running in a native OS (Linux/MacOS).</summary>
         /// <returns>True if in *nix, else false.</returns>
-        public static bool Native => Linux || MacOs;
+        public static bool Native { get; }
 
         /// <summary>Determines if using Windows and if Linux subsystem is installed.</summary>
         /// <returns>True if in Windows and bash detected.</returns>
-        public static bool Subsystem => Windows && File.Exists(@"C:\Windows\System32\bash.exe");
+        public static bool Subsystem => _windows && File.Exists(@"C:\Windows\System32\bash.exe");
 
         /// <summary>Stores output of the previous command if redirected.</summary>
         public string Output { get; private set; }
@@ -35,14 +35,14 @@ namespace Shell.NET
         /// <summary>Stores the error message of the previous command if redirected.</summary>
         public string ErrorMsg { get; private set; }
 
-        private static string FindBash()
+        static Bash()
         {
-            if (Native)
-                return "bash";
-            else if (Subsystem)
-                return "bash.exe";
-            else
-                throw new NotSupportedException("Neither Linux Subsystem nor Cygwin were detected");
+            _linux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+            _mac = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+            _windows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+            Native = _linux || _mac ? true : false;
+            _bashPath = Native ? "bash" : "bash.exe";
         }
 
         /// <summary>Execute a new Bash command.</summary>
@@ -51,6 +51,9 @@ namespace Shell.NET
         /// <returns>A `BashResult` containing the command's output information.</returns>
         public BashResult Command(string input, bool redirect = true)
         {
+            if (!Native && !Subsystem)
+                throw new PlatformNotSupportedException();
+
             using (var bash = new Process { StartInfo = BashInfo(input, redirect) })
             {
                 bash.Start();
@@ -83,7 +86,7 @@ namespace Shell.NET
         {
             return new ProcessStartInfo
             {
-                FileName = BashPath,
+                FileName = _bashPath,
                 Arguments = $"-c \"{input}\"",
                 RedirectStandardInput = false,
                 RedirectStandardOutput = redirectOutput,
