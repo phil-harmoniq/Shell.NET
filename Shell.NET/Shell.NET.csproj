@@ -5,7 +5,7 @@
     <Title>Shell.NET</Title>
     <Authors>ph-hawkins</Authors>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <VersionPrefix>0.2.1</VersionPrefix>
+    <VersionPrefix>0.2.2</VersionPrefix>
     <Description>Utilize Bash shell directly in C#/.NET Core</Description>
     <Copyright>MIT</Copyright>
     <PackageProjectUrl>https://github.com/phil-harmoniq/Shell.NET</PackageProjectUrl>

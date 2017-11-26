@@ -1,0 +1,21 @@
+{
+	// Use IntelliSense to find out which attributes exist for C# debugging
+	// Use hover for the description of the existing attributes
+	// For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Debug Unit Tests",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "Build Solution",
+			// If you have changed target frameworks, make sure to update the program path.
+			"program": "dotnet",
+			"args": ["vstest", "${workspaceRoot}/.vscode/build/Shell.NET.Tests/bin/netcoreapp2.0/Shell.NET.Tests.dll"],
+			// For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
+			"console": "internalConsole",
+			"stopAtEntry": false,
+			"internalConsoleOptions": "openOnSessionStart"
+		}
+	]
+}
