@@ -2,19 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Title>Shell.NET</Title>
-    <Authors>ph-hawkins</Authors>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <VersionPrefix>0.2.2</VersionPrefix>
-    <Description>Utilize Bash shell directly in C#/.NET Core</Description>
-    <Copyright>MIT</Copyright>
-    <PackageProjectUrl>https://github.com/phil-harmoniq/Shell.NET</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/phil-harmoniq/Shell.NET</RepositoryUrl>
-    <PackageLicenseUrl>https://github.com/phil-harmoniq/Shell.NET/blob/master/LICENSE.md</PackageLicenseUrl>
-    <PackageIconUrl>http://imgur.com/YdSh0xF.png</PackageIconUrl>
-    <AssemblyTitle>Shell.NET</AssemblyTitle>
-    <PackageTags>bash;shell;linux;unix;mac;*nix;core;netstandard</PackageTags>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
 </Project>
