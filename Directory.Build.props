@@ -1,6 +1,7 @@
 <Project>
 
   <PropertyGroup>
+    <Authors>Phil Hawkins</Authors>
     <VersionPrefix>0.2.2</VersionPrefix>
     <Description>Utilize Bash shell directly in C#/.NET Core</Description>
     <Copyright>MIT</Copyright>
@@ -10,7 +11,6 @@
     <PackageIconUrl>http://imgur.com/YdSh0xF.png</PackageIconUrl>
     <AssemblyTitle>Shell.NET</AssemblyTitle>
     <PackageTags>bash;shell;linux;unix;mac;*nix;core;netstandard</PackageTags>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
