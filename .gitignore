@@ -218,3 +218,5 @@ _Pvt_Extensions
 
 # Rider
 .idea/
+
+coverage.json
