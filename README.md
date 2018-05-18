@@ -20,7 +20,7 @@ Or add the following to your .csproj:
 
 ## Example
 
-```C#
+```c#
 var bash = new Bash();
 bash.Grep("export", "~/.bashrc", redirect: false);
 
