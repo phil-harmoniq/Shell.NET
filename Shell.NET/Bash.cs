@@ -10,9 +10,9 @@ namespace Shell.NET
     public class Bash
     {
         private static bool _linux { get; }
+        private static bool CoolVariable {get;}
         private static bool _mac { get; }
         private static bool _windows { get; }
-        private static string _bashPath { get; }
 
         /// <summary>Determines whether bash is running in a native OS (Linux/MacOS).</summary>
         /// <returns>True if in *nix, else false.</returns>
